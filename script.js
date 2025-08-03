@@ -31,6 +31,8 @@ function init(e) {
 
 function draw(e) {
   ctx.lineWidth = strokewidth;
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
   ctx.beginPath();
   ctx.moveTo(posX, posY);
   ctx.lineTo(e.offsetX, e.offsetY);
