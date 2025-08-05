@@ -27,13 +27,24 @@
   </head>
   <body>
     <div id="header">
-      <div class="head">
-        <h1 id="heading">Digit Recognition</h1>
+      <div class="col1">
+        <div class="head">
+          <h1 id="heading">Digit Recognition</h1>
+          <p id="subtext">
+            This project uses a Convolutional Neural <br />
+            Network (CNN) trained on the MNIST <br />
+            dataset to recognize handwritten digits. <br />
+            The model takes grayscale images of <br />
+            numbers (0–9) and predicts them based on <br />
+            learned patterns. You can draw a digit on <br />
+            the canvas, and the model will classify it in <br />
+            real-time using deep learning.
+          </p>
+        </div>
       </div>
-      <div class="container">
-        <div class="buttons">
-          <button id="clear"><i class="fa-solid fa-trash"></i></button>
-          <input type="color" id="colourpicker" />
+
+      <div class="col2">
+        <div class="container">
           <div class="slider">
             <input
               type="range"
@@ -45,10 +56,16 @@
             />
             <div class="value">Width: <span id="sliderValue">5</span></div>
           </div>
-        </div>
+          <div class="buttons">
+            <button id="clear">
+            <i class="fa-solid fa-trash-can" id="trash"></i>
+            </button>
+            <input type="color" id="colourpicker" />
+          </div>
 
-        <canvas id="canvas" style="border: 5px solid black"> </canvas>
-        <div class="enter"><button>Enter</button></div>
+          <canvas id="canvas" style="border: 5px solid black"> </canvas>
+          <div class="enter"><button>Enter</button></div>
+        </div>
       </div>
     </div>
   </body>

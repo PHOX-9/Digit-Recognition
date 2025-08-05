@@ -16,16 +16,48 @@ body {
   justify-content: center;
   position: relative;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 
-.buttons {
+/*.......................................Column-1..........................................*/
+.col1 {
   display: flex;
-  justify-content: center;
+  flex-basis: 50%;
+  margin-left: 5vw;
+  margin-top: 10vh;
 }
 
-.enter {
-  display: flex;
-  justify-content: center;
-  border: none;
+#heading {
+  font-size: 54px;
+  font-weight: 450;
+  margin-bottom: 20px;
 }
+
+#subtext {
+  font-size: 28px;
+}
+
+/*.......................................Column-2..........................................*/
+.col2 {
+  flex-basis: 50%;
+}
+
+#clear {
+  height: 50px;
+  width: 50px;
+  border: solid black 2.5px;
+  background-color: white;
+}
+
+#colourpicker {
+  height: 50px;
+  width: 50px;
+  border: solid black 2.5px;
+  background-color: white;
+}
+
+#trash {
+  font-size: 30px;
+}
+
+
