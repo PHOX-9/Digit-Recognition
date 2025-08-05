@@ -84,6 +84,8 @@ body {
   font-size: 20px;
   cursor: pointer;
   margin-top: 20px;
+  background-color: #484838;
+  color:#ffffc2 ;
 }
 
 .top {
