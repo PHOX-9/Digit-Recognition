@@ -3,7 +3,7 @@ const ctx = mycanvas.getContext("2d");
 const slider = document.getElementById("myRange");
 const output = document.getElementById("sliderValue");
 
-mycanvas.height = window.innerHeight / 2;
+mycanvas.height = window.innerHeight / 1.5;
 mycanvas.width = window.innerWidth / 3;
 
 let drawing = false;
