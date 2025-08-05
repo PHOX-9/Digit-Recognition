@@ -43,8 +43,15 @@ body {
 /*.......................................Column-2..........................................*/
 .col2 {
   flex-basis: 50%;
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
 }
 
+#canvas {
+  border: 5px solid #484838;
+  background-color: white;
+}
 #clear {
   height: 50px;
   width: 50px;
@@ -64,6 +71,11 @@ body {
   color: #484838;
 }
 
+.enter {
+  display: flex;
+  justify-content: center;
+}
+
 #enter {
   height: 50px;
   width: 150px;
@@ -71,4 +83,19 @@ body {
   border: solid #484838 2.5px;
   font-size: 20px;
   cursor: pointer;
+  margin-top: 20px;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.slider{
+  margin-left: 0.5vw;
 }

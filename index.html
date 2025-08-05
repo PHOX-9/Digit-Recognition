@@ -45,25 +45,27 @@
 
       <div class="col2">
         <div class="container">
-          <div class="slider">
-            <input
-              type="range"
-              min="1"
-              max="10"
-              value="5"
-              class="slider"
-              id="myRange"
-            />
-            <div class="value">Width: <span id="sliderValue">5</span></div>
-          </div>
-          <div class="buttons">
-            <button id="clear">
-              <i class="fa-regular fa-trash-can" id="trash"></i>
-            </button>
-            <input type="color" id="colourpicker" />
+          <div class="top">
+            <div class="buttons">
+              <button id="clear">
+                <i class="fa-regular fa-trash-can" id="trash"></i>
+              </button>
+              <input type="color" id="colourpicker" />
+            </div>
+            <div class="slider">
+              <input
+                type="range"
+                min="1"
+                max="10"
+                value="5"
+                class="slider"
+                id="myRange"
+              />
+              <div class="value">Width: <span id="sliderValue">5</span></div>
+            </div>
           </div>
 
-          <canvas id="canvas" style="border: 5px solid #484838"> </canvas>
+          <canvas id="canvas"> </canvas>
           <div class="enter"><button id="enter">Submit</button></div>
         </div>
       </div>
