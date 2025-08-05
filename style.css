@@ -3,6 +3,7 @@
   padding: 0;
   font-family: "Outfit", sans-serif;
   box-sizing: border-box;
+  background-color: #ffffc2;
 }
 
 body {
@@ -31,10 +32,12 @@ body {
   font-size: 54px;
   font-weight: 450;
   margin-bottom: 20px;
+  color: #484838;
 }
 
 #subtext {
   font-size: 28px;
+  color: #6d6c61;
 }
 
 /*.......................................Column-2..........................................*/
@@ -45,19 +48,27 @@ body {
 #clear {
   height: 50px;
   width: 50px;
-  border: solid black 2.5px;
-  background-color: white;
+  border: solid #484838 2.5px;
+  background-color: #ffffc2;
 }
 
 #colourpicker {
   height: 50px;
   width: 50px;
-  border: solid black 2.5px;
-  background-color: white;
+  border: solid #484838 2.5px;
+  background-color: #ffffc2;
 }
 
 #trash {
   font-size: 30px;
+  color: #484838;
 }
 
-
+#enter {
+  height: 50px;
+  width: 150px;
+  border-radius: 20px;
+  border: solid #484838 2.5px;
+  font-size: 20px;
+  cursor: pointer;
+}
