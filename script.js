@@ -2,6 +2,7 @@ const mycanvas = document.getElementById("canvas");
 const ctx = mycanvas.getContext("2d");
 const slider = document.getElementById("myRange");
 const output = document.getElementById("sliderValue");
+const enter = document.getElementById("enter");
 
 mycanvas.height = window.innerHeight / 1.5;
 mycanvas.width = window.innerWidth / 3;
@@ -10,6 +11,9 @@ let drawing = false;
 let posX = 0;
 let posY = 0;
 let strokewidth = 5;
+
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 mycanvas.addEventListener("mousedown", (e) => {
   init(e);
@@ -48,6 +52,8 @@ const clearbtn = document.getElementById("clear");
 
 clearbtn.addEventListener("click", () => {
   ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
+  ctx.fillStyle = "white";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 });
 
 //slider
@@ -59,4 +65,15 @@ slider.oninput = function () {
 //colour picker
 colourpicker.addEventListener("change", (e) => {
   ctx.strokeStyle = e.target.value;
+});
+
+//image export
+
+enter.addEventListener("click", () => {
+  const image = canvas.toDataURL("image/jpeg");
+
+  const a = document.createElement("a");
+  a.href = image;
+  a.download = "Number.jpeg";
+  a.click();
 });
