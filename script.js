@@ -13,7 +13,7 @@ let posY = 0;
 let strokewidth = 5;
 
 ctx.fillStyle = "white";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillRect(0, 0, mycanvas.width, mycanvas.height);
 
 mycanvas.addEventListener("mousedown", (e) => {
   init(e);
@@ -53,7 +53,7 @@ const clearbtn = document.getElementById("clear");
 clearbtn.addEventListener("click", () => {
   ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
   ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillRect(0, 0, mycanvas.width, mycanvas.height);
 });
 
 //slider
@@ -70,7 +70,33 @@ colourpicker.addEventListener("change", (e) => {
 //image export
 
 enter.addEventListener("click", () => {
-  const image = canvas.toDataURL("image/jpeg");
+  const imageData = ctx.getImageData(0, 0, mycanvas.width, mycanvas.height);
+  const data = imageData.data;
+
+  //temporary canvas to store negative values
+  const tempcanvas = document.createElement("canvas");
+  tempcanvas.height = window.innerHeight / 1.5;
+  tempcanvas.width = window.innerWidth / 3;
+  const tctx = tempcanvas.getContext("2d");
+
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255) continue;
+    else {
+      data[i] = 0;
+      data[i + 1] = 0;
+      data[i + 2] = 0;
+    }
+  }
+
+  for (let i = 0; i < data.length; i += 4) {
+    data[i] = 255 - data[i];
+    data[i + 1] = 255 - data[i + 1];
+    data[i + 2] = 255 - data[i + 2];
+  }
+
+  tctx.putImageData(imageData, 0, 0);
+
+  const image = tempcanvas.toDataURL("image/jpeg");
 
   const a = document.createElement("a");
   a.href = image;
