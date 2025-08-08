@@ -10,7 +10,7 @@ mycanvas.width = window.innerWidth / 3;
 let drawing = false;
 let posX = 0;
 let posY = 0;
-let strokewidth = 5;
+let strokewidth = 25;
 
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, mycanvas.width, mycanvas.height);
@@ -59,7 +59,8 @@ clearbtn.addEventListener("click", () => {
 //slider
 slider.oninput = function () {
   output.textContent = this.value;
-  strokewidth = this.value;
+  strokewidth = 20.0 + parseInt(this.value);
+  console.log(strokewidth);
 };
 
 //colour picker
@@ -79,6 +80,13 @@ enter.addEventListener("click", () => {
   tempcanvas.width = window.innerWidth / 3;
   const tctx = tempcanvas.getContext("2d");
 
+  //temporary canvas to scale it to 28x28
+  const tempcanvas2 = document.createElement("canvas");
+  tempcanvas2.height = 28;
+  tempcanvas2.width = 28;
+  const tctx2 = tempcanvas2.getContext("2d");
+
+  //converting all colours to black so that it can easily be inverted
   for (let i = 0; i < data.length; i += 4) {
     if (data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255) continue;
     else {
@@ -88,6 +96,7 @@ enter.addEventListener("click", () => {
     }
   }
 
+  //inverting black to white and white to black
   for (let i = 0; i < data.length; i += 4) {
     data[i] = 255 - data[i];
     data[i + 1] = 255 - data[i + 1];
@@ -96,7 +105,9 @@ enter.addEventListener("click", () => {
 
   tctx.putImageData(imageData, 0, 0);
 
-  const image = tempcanvas.toDataURL("image/jpeg");
+  tctx2.drawImage(tempcanvas, 0, 0, 28, 28);
+
+  const image = tempcanvas2.toDataURL("image/jpeg");
 
   const a = document.createElement("a");
   a.href = image;
