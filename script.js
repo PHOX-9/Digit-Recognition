@@ -3,6 +3,7 @@ const ctx = mycanvas.getContext("2d");
 const slider = document.getElementById("myRange");
 const output = document.getElementById("sliderValue");
 const enter = document.getElementById("enter");
+const pred = document.getElementById("prediction");
 
 mycanvas.height = window.innerHeight / 1.5;
 mycanvas.width = window.innerWidth / 3;
@@ -54,6 +55,7 @@ clearbtn.addEventListener("click", () => {
   ctx.clearRect(0, 0, mycanvas.width, mycanvas.height);
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, mycanvas.width, mycanvas.height);
+  pred.textContent = "";
 });
 
 //slider
@@ -73,79 +75,104 @@ let model;
 
 async function loadModel() {
   try {
-    // Load the model configuration separately
-    const modelResponse = await fetch("model/model.json");
-    const modelJson = await modelResponse.json();
-
-    // Manually create the model architecture
-    const modelConfig = modelJson.modelTopology.model_config;
-    const layers = modelConfig.config.layers;
-
-    // Create a sequential model
+    // Create the model architecture to match your JSON exactly
     model = tf.sequential();
 
-    // Add layers manually
-    layers.forEach((layerConfig) => {
-      const layerClass = layerConfig.class_name;
-      const config = layerConfig.config;
+    // Input layer - explicit shape
+    model.add(
+      tf.layers.inputLayer({
+        inputShape: [28, 28, 1],
+        name: "input_layer",
+      })
+    );
 
-      switch (layerClass) {
-        case "InputLayer":
-          // We'll skip input layer since it's handled internally
-          break;
-        case "Conv2D":
-          model.add(
-            tf.layers.conv2d({
-              filters: config.filters,
-              kernelSize: config.kernel_size,
-              strides: config.strides,
-              padding: config.padding,
-              activation: config.activation,
-              inputShape: [28, 28, 1], // Add input shape explicitly
-            })
-          );
-          break;
-        case "MaxPooling2D":
-          model.add(
-            tf.layers.maxPooling2d({
-              poolSize: config.pool_size,
-              strides: config.strides,
-            })
-          );
-          break;
-        case "Dropout":
-          model.add(tf.layers.dropout({ rate: config.rate }));
-          break;
-        case "Flatten":
-          model.add(tf.layers.flatten());
-          break;
-        case "Dense":
-          model.add(
-            tf.layers.dense({
-              units: config.units,
-              activation: config.activation,
-            })
-          );
-          break;
-      }
-    });
+    // First Conv2D layer
+    model.add(
+      tf.layers.conv2d({
+        filters: 32,
+        kernelSize: [3, 3],
+        activation: "relu",
+        name: "conv2d",
+      })
+    );
+
+    // First MaxPooling layer
+    model.add(
+      tf.layers.maxPooling2d({
+        poolSize: [2, 2],
+        strides: [2, 2],
+        name: "max_pooling2d",
+      })
+    );
+
+    // Second Conv2D layer
+    model.add(
+      tf.layers.conv2d({
+        filters: 48,
+        kernelSize: [3, 3],
+        activation: "relu",
+        name: "conv2d_1",
+      })
+    );
+
+    // Second MaxPooling layer
+    model.add(
+      tf.layers.maxPooling2d({
+        poolSize: [2, 2],
+        strides: [2, 2],
+        name: "max_pooling2d_1",
+      })
+    );
+
+    // Dropout layer
+    model.add(
+      tf.layers.dropout({
+        rate: 0.5,
+        name: "dropout",
+      })
+    );
+
+    // Flatten layer
+    model.add(
+      tf.layers.flatten({
+        name: "flatten",
+      })
+    );
+
+    // First Dense layer
+    model.add(
+      tf.layers.dense({
+        units: 500,
+        activation: "relu",
+        name: "dense",
+      })
+    );
+
+    // Output layer
+    model.add(
+      tf.layers.dense({
+        units: 10,
+        activation: "softmax",
+        name: "dense_1",
+      })
+    );
 
     // Load weights
     const weightsResponse = await fetch("model/group1-shard1of1.bin");
     const weightsBuffer = await weightsResponse.arrayBuffer();
     const weightsArray = new Float32Array(weightsBuffer);
 
-    // Manually set weights
+    // Set weights in correct order
     const weights = [];
     let offset = 0;
 
-    // Define weight shapes in the order they appear in your model
+    // Weight shapes in order of layers
     const weightShapes = [
       [3, 3, 1, 32], // conv2d kernel
       [32], // conv2d bias
       [3, 3, 32, 48], // conv2d_1 kernel
       [48], // conv2d_1 bias
-      [1200, 500], // dense kernel
+      [1200, 500], // dense kernel (28x28 -> maxpool(13x13) -> maxpool(5x5) -> 5*5*48 = 1200)
       [500], // dense bias
       [500, 10], // dense_1 kernel
       [10], // dense_1 bias
@@ -159,8 +186,16 @@ async function loadModel() {
     }
 
     model.setWeights(weights);
+
+    // Compile the model (not necessary for inference but good practice)
+    model.compile({
+      optimizer: tf.train.adam(0.001),
+      loss: "sparseCategoricalCrossentropy",
+      metrics: ["accuracy"],
+    });
+
     console.log("Model loaded successfully!");
-    console.log("Model summary:", model.summary());
+    model.summary();
   } catch (err) {
     console.error("Error loading model:", err);
   }
@@ -213,8 +248,7 @@ enter.addEventListener("click", async () => {
     const predictedDigit = results.indexOf(Math.max(...results));
     console.log(`Predicted digit: ${predictedDigit}`);
 
-    // Show result to user
-    alert(`Predicted digit: ${predictedDigit}`);
+    pred.textContent = "Predicted Number: " + predictedDigit;
 
     // Clean up
     inputTensor.dispose();
