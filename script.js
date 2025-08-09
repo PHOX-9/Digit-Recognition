@@ -28,7 +28,7 @@ mycanvas.addEventListener("mouseup", () => {
 });
 
 mycanvas.addEventListener("mousemove", (e) => {
-  if (drawing) draw(e);
+  if (drawing) draw(e.offsetX, e.offsetY);
 });
 
 //Touch event listeners
@@ -43,62 +43,43 @@ mycanvas.addEventListener("touchend", () => {
 });
 
 mycanvas.addEventListener("touchmove", (e) => {
-  if (drawing) drawtouch(e);
+  if (drawing) {
+    e.preventDefault(); // Prevent scrolling
+    const rect = mycanvas.getBoundingClientRect();
+    const x = e.touches[0].clientX - rect.left;
+    const y = e.touches[0].clientY - rect.top;
+    draw(x, y);
+  }
 });
 
+// Initialize for mouse
 function init(e) {
   posX = e.offsetX;
   posY = e.offsetY;
 }
 
+// Initialize for touch
 function initTouch(e) {
-  e.preventDefault(); // Prevent scrolling
+  e.preventDefault();
   const rect = mycanvas.getBoundingClientRect();
   posX = e.touches[0].clientX - rect.left;
   posY = e.touches[0].clientY - rect.top;
 }
 
-function drawtouch(e) {
-  if (!drawing) return;
-
-  e.preventDefault(); // Prevent scrolling while drawing
-
-  let x, y;
-
-  // For touch devices
-  if (e.touches) {
-    const rect = mycanvas.getBoundingClientRect();
-    x = e.touches[0].clientX - rect.left;
-    y = e.touches[0].clientY - rect.top;
-  } else {
-    // For mouse
-    x = e.offsetX;
-    y = e.offsetY;
-  }
-
-  ctx.lineWidth = strokewidth;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "black";
-
-  ctx.lineTo(x, y);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-}
-
-function draw(e) {
+// Unified draw function for both mouse & touch
+function draw(x, y) {
   ctx.lineWidth = strokewidth;
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
+
   ctx.beginPath();
   ctx.moveTo(posX, posY);
-  ctx.lineTo(e.offsetX, e.offsetY);
-
+  ctx.lineTo(x, y);
   ctx.stroke();
-
   ctx.closePath();
-  posX = e.offsetX;
-  posY = e.offsetY;
+
+  posX = x;
+  posY = y;
 }
 
 const clearbtn = document.getElementById("clear");
