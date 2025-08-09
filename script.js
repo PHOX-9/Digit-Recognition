@@ -16,6 +16,8 @@ let strokewidth = 25;
 ctx.fillStyle = "white";
 ctx.fillRect(0, 0, mycanvas.width, mycanvas.height);
 
+//Mouse Event listeners
+
 mycanvas.addEventListener("mousedown", (e) => {
   init(e);
   drawing = true;
@@ -26,6 +28,21 @@ mycanvas.addEventListener("mouseup", () => {
 });
 
 mycanvas.addEventListener("mousemove", (e) => {
+  if (drawing) draw(e);
+});
+
+//Touch event listeners
+
+mycanvas.addEventListener("touchstart", (e) => {
+  init(e);
+  drawing = true;
+});
+
+mycanvas.addEventListener("touchend", () => {
+  drawing = false;
+});
+
+mycanvas.addEventListener("touchmove", (e) => {
   if (drawing) draw(e);
 });
 
