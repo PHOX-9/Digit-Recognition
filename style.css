@@ -63,12 +63,14 @@ body {
 #canvas {
   border: 5px solid #484838;
   background-color: white;
+  cursor: url("Cursors/Handwriting.cur"), auto;
 }
 #clear {
   height: 50px;
   width: 50px;
   border: solid #484838 2.5px;
   background-color: #ffffc2;
+  cursor: url("Cursors/Link\ Select.cur"), auto;
 }
 
 #colourpicker {
@@ -76,6 +78,7 @@ body {
   width: 50px;
   border: solid #484838 2.5px;
   background-color: #ffffc2;
+  cursor: url("Cursors/Link\ Select.cur"), auto;
 }
 
 #trash {
@@ -98,6 +101,7 @@ body {
   margin-top: 20px;
   background-color: #484838;
   color: #ffffc2;
+  cursor: url("Cursors/Link\ Select.cur"), auto;
 }
 
 .top {
@@ -112,4 +116,5 @@ body {
 
 .slider {
   margin-left: 0.5vw;
+  cursor: url("Cursors/Horizontal\ Resize.cur"), auto;
 }
