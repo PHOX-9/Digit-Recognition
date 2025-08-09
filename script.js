@@ -68,6 +68,17 @@ colourpicker.addEventListener("change", (e) => {
   ctx.strokeStyle = e.target.value;
 });
 
+//model
+
+let model;
+
+async function loadModel() {
+  model = await tf.loadLayersModel("model/model.json");
+  console.log("Model loaded!");
+}
+
+loadModel();
+
 //image export
 
 enter.addEventListener("click", () => {
@@ -106,6 +117,21 @@ enter.addEventListener("click", () => {
   tctx.putImageData(imageData, 0, 0);
 
   tctx2.drawImage(tempcanvas, 0, 0, 28, 28);
+
+  const canvasData = tctx2.getImageData(
+    0,
+    0,
+    tempcanvas2.width,
+    tempcanvas2.height
+  );
+  const datanew = canvasData.data;
+
+  const bwArray = new Float32Array(28 * 28);
+
+  for (let i = 0; i < datanew.length; i += 4) {
+    const r = pixels[i]; // just check Red
+    bwArray[i / 4] = r > 127 ? 1 : 0; // threshold at midpoint
+  }
 
   const image = tempcanvas2.toDataURL("image/jpeg");
 
