@@ -19,4 +19,4 @@ You can draw digits (0–9) on an HTML canvas, and a **Convolutional Neural Netw
 - **HTML, CSS, JavaScript** for the frontend.
 - **TensorFlow.js** for running the model in the browser.
 - **MNIST Dataset** for training.
-- **Python + TensorFlow/Keras** (optional) for model training.
+- **Python + TensorFlow/Keras** for model training.
