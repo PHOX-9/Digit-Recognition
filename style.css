@@ -122,6 +122,43 @@ body {
 /*For smaller screens*/
 
 @media only screen and (max-width: 600px) {
+  #header {
+    flex-direction: column;
+  }
 
-  
+  #heading {
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: #484838;
+  }
+
+  #subtext {
+    font-size: 14px;
+    color: #6d6c61;
+  }
+
+  .head {
+    position: fixed;
+    margin-top: -300px;
+  }
+
+  #prediction {
+    margin-top: 10px;
+    font-size: large;
+    font-weight: 500;
+  }
+  .col1 {
+    flex-direction: column;
+    flex-basis: 50%;
+    margin-top: 40vh;
+    margin-left: -20vw;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .col2 {
+    flex-direction: column;
+    flex-basis: 50%;
+  }
 }

@@ -5,8 +5,13 @@ const output = document.getElementById("sliderValue");
 const enter = document.getElementById("enter");
 const pred = document.getElementById("prediction");
 
-mycanvas.height = window.innerHeight / 1.5;
-mycanvas.width = window.innerWidth / 3;
+if (window.innerWidth <= 600) {
+  mycanvas.height = 300;
+  mycanvas.width = 300;
+} else {
+  mycanvas.height = 450;
+  mycanvas.width = 450;
+}
 
 let drawing = false;
 let posX = 0;
